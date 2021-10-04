@@ -1,0 +1,35 @@
+providers:
+  file:
+    directory: "/etc/traefik"
+    watch: true
+  etcd:
+    rootKey: "traefik"
+    endpoints:
+      - "192.168.50.16:2379"
+    #监视配置变更
+
+
+log:
+  level: ERROR
+  format: json
+  filePath: "/var/log/traefik/system.log"
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  bufferingSize: 100 #内存缓冲区行数
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+#certificatesResolvers:
+#  mytlschallenge:
+#    acme:
+#      email:  "yourname@domain"
+#      storage:  "/letsencrypt/acme.json"
+#      tlsChallenge: {}
+
+api:
+  dashboard: true

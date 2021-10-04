@@ -1,0 +1,20 @@
+http:
+  routers:
+    routehttp:
+      entryPoints:
+        - "web"
+      service: srv-http
+      rule: "Host(`web.vone.me`)"
+  services:
+    srv-http:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.50.16:8000"
+
+
+
+
+
+
+
+

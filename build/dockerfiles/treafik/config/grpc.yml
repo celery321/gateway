@@ -1,0 +1,21 @@
+http:
+#  middlewares:
+#    sso-auth:
+#      forwardAuth:
+#        address: "http://172.25.143.72:5000/auth"
+  routers:
+    grpc:
+      entryPoints:
+        - "web"
+      service: srv-grpc
+      rule: "Host(`grpc.vone.me`) ||  Path(`/hello`)"
+  services:
+    srv-grpc:
+      loadBalancer:
+        servers:
+          - url: "h2c://192.168.50.16:50051"
+
+
+
+
+

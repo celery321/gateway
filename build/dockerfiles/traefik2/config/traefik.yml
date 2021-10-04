@@ -1,0 +1,30 @@
+providers:
+#  docker: {}
+  file:
+    directory: "/etc/traefik"
+    watch: true
+
+log:
+  level: "debug"
+  format: "json"
+  filePath: "/var/log/traefik/system.log"
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: "json"
+  bufferingSize: 100 #内存缓冲区行数
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+#certificatesResolvers:
+#  mytlschallenge:
+#    acme:
+#      email:  "yourname@domain"
+#      storage:  "/letsencrypt/acme.json"
+#      tlsChallenge: {}
+
+api:
+  dashboard: true

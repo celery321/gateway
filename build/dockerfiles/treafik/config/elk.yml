@@ -1,0 +1,23 @@
+http:
+#  middlewares:
+#    sso-auth:
+#      forwardAuth:
+#        address: "http://172.25.143.72:5000/auth"
+  routers:
+    elk:
+      entryPoints:
+        - "web"
+      middlewares:
+        - traefik-forward-auth
+      rule: "Host(`elk.vone.me`) "
+      service: elk
+  services:
+    elk:
+      loadBalancer:
+        servers:
+          - url: "http://114.67.201.131:5601/"
+
+
+
+
+

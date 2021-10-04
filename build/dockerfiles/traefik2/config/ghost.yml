@@ -1,0 +1,24 @@
+http:
+#  middlewares:
+#    sso-auth:
+#      forwardAuth:
+#        address: "http://172.25.143.72:5000/auth"
+  routers:
+    ghost:
+      entryPoints:
+        - "web"
+      rule: "Host(`ghost.vone.me`) "
+      middlewares:
+        - traefik-forward-auth
+      service: ghost
+  services:
+    ghost:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.50.16:2368"
+
+
+
+
+
+

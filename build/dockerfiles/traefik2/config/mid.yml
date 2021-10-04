@@ -1,0 +1,6 @@
+http:
+  middlewares:
+    traefik-forward-auth:
+      forwardauth:
+        address:
+          - "http://traefik-forward-auth.vone.me:4181"

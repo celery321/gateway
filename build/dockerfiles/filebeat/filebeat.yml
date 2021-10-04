@@ -1,0 +1,63 @@
+# log files input
+filebeat.inputs:
+  - type:
+    enabled: true
+    paths:
+      - /var/log/traefik/*.log  #traefik
+    multiline.pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2]' # 将不在一行的日志，拼接到以日期开头的行后
+    multiline.negate:  true
+    multiline.match: after
+    fields:
+      log_type: traefik
+    fields_under_root: true
+    scan_frequency: 10s
+    max_bytes: 1048576
+    tail_files: false
+    backoff: 1s
+    backoff_factor: 2
+
+# output to logstash
+#output.logstash:
+#  hosts: ["114.67.201.131:5044"]
+
+output.redis:
+  enabled: true
+  hosts: ["114.67.201.131:6379"]
+  key: "nginx"
+  keys:
+    - key: "traefik"   # send to info_list if `message` field contains INFO
+      when.contains:
+        log_type: "traefik"
+#    - key: "%{[fields.list]}"
+#      mappings:
+#        http: "frontend_list"
+#        nginx: "frontend_list"
+#        mysql: "backend_list"
+  password:
+  db: 0
+  datatype: "list"
+
+
+processors:
+  - drop_fields:
+      fields: ["input_type", "log.offset", "host.name", "input.type", "agent.hostname", "agent.type", "ecs.version", "agent.ephemeral_id", "agent.id", "agent.version", "fields.ics",  "log.flags", "fields.nginx", ]
+
+#monitoring:
+#  enabled: true
+#  elasticsearch:
+#    hosts: ["http://114.67.201.131:9200"]
+#    user: "beats_system"
+#    password: "111111"
+
+
+# logging
+logging.level: debug
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat.log
+  interval: 1h
+  keepfiles: 7
+  permissions: 0644
+  logging.json: true
+

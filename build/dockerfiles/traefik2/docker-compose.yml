@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:v2.4.8
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "./config:/etc/traefik"
+      - "/var/log/traefik:/var/log/traefik"
+
+
+  traefik-forward-auth:
+    image: thomseddon/traefik-forward-auth:v2.2.0
+    ports:
+      - "4181:4181"
+    container_name: auth
+    restart: always
+    hostname: traefik-auth.lab.io
+    environment:
+      - LOG_LEVEL=trace
+      - DEFAULT_PROVIDER=generic-oauth
+      - PROVIDERS_GENERIC_OAUTH_AUTH_URL=https://github.com/login/oauth/authorize
+      - PROVIDERS_GENERIC_OAUTH_TOKEN_URL=https://github.com/login/oauth/access_token
+      - PROVIDERS_GENERIC_OAUTH_USER_URL=https://api.github.com/user
+      - PROVIDERS_GENERIC_OAUTH_CLIENT_ID=f358eccac4ff37a6c169
+      - PROVIDERS_GENERIC_OAUTH_CLIENT_SECRET=fcd2a133f1bd996262ef4962a1f9ab097f7bb6a3
+      - PROVIDERS_GENERIC_OAUTH_SCOPE=*
+      - PROVIDERS_GENERIC_OAUTH_TOKEN_STYLE=header
+      - SECRET=something-random
+      - INSECURE_COOKIE=true
+    labels:
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth.vone.me:4181"
+      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+

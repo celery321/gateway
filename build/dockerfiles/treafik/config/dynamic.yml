@@ -1,0 +1,25 @@
+http:
+#  middlewares:
+#    sso-auth:
+#      forwardAuth:
+#        address: "http://172.25.143.72:5000/auth"
+
+  routers:
+    routehttp:
+      entryPoints:
+        - "web"
+      service: srv-http
+      rule: "Host(`web.vone.me`)"
+  services:
+    srv-http:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.50.16:8000"
+
+
+
+
+
+
+
+

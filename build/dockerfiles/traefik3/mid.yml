@@ -1,0 +1,7 @@
+http:
+  middlewares:
+    test-ipwhitelist:
+      ipWhiteList:
+        sourceRange:
+          - "127.0.0.1/32"
+          - "192.168.80.7"

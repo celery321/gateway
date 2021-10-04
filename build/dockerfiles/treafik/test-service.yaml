@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  whoami:
+    image: containous/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      # 参考 https://soulteary.com/2020/12/02/easier-way-to-use-traefik-2.html
+      - "traefik.http.routers.test-auth-web.middlewares=https-redirect@file"
+      - "traefik.http.routers.test-auth-web.entrypoints=http"
+      - "traefik.http.routers.test-auth-web.rule=Host(`whoami.lab.com`, `whoami.lab.io`)"
+      - "traefik.http.routers.test-auth-ssl.entrypoints=https"
+      - "traefik.http.routers.test-auth-ssl.tls=true"
+      - "traefik.http.routers.test-auth-ssl.rule=Host(`whoami.lab.com`, `whoami.lab.io`)"
+    networks:
+      - traefik
+networks:
+  traefik:
+    external: true

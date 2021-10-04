@@ -1,0 +1,10 @@
+version: '3'
+services:
+  filebeat:
+    image: elastic/filebeat:7.3.1
+    container_name: filebeat
+    restart: always
+    command: filebeat
+    volumes:
+      - /var/log:/var/log                      # 此处是宿主机日志目录（修改为你自己的目录）
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml   # filebeat的

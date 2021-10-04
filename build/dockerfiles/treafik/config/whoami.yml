@@ -1,0 +1,18 @@
+http:
+  routers:
+    whoami:
+      entryPoints:
+        - "web"
+      rule: "Host(`elk.vone.me`) "
+      service: elk
+  services:
+    elk:
+      loadBalancer:
+        servers:
+          - url: "http://114.67.201.131:5601/"
+
+
+
+
+
+

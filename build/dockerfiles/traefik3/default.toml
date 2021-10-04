@@ -1,0 +1,11 @@
+# 中间件在 docker cli 中使用时可用 `,` 分隔：middlewares=m1@file,m2@file
+
+# gzip
+[http.middlewares.gzip.compress]
+
+# basic 认证
+[http.middlewares.default-auth-user.basicAuth]
+removeHeader = true
+users = [
+	"admin:$apr1$/SJLXHL/$P2HW4SSempg8RjvV7zVYI0"
+]
