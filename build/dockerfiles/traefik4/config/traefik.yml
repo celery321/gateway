@@ -1,7 +1,7 @@
 providers:
-  file:
-    directory: "/etc/traefik"
-    watch: true
+#  file:
+#    directory: "/etc/traefik"
+#    watch: true
   etcd:
     rootKey: "traefik"
     endpoints:
