@@ -3,13 +3,13 @@ http:
     routehttp:
       entryPoints:
         - "web"
-      service: srv-http
-      rule: "Host(`web.vone.me`)"
+      service: srv1
+      rule: "Host(`web2.vone.me`)"
   services:
-    srv-http:
+    srv1:
       loadBalancer:
         servers:
-          - url: "http://192.168.50.16:8000"
+          - url: "http://192.168.50.16:809"
 
 
 

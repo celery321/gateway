@@ -2,13 +2,15 @@ version: '3'
 
 services:
   traefik:
-    image: traefik:v2.5.3
+    image: traefik:latest
     container_name: traefik
     ports:
-      - "8085:80"
-      - "8086:8080"
+      - "80:80"
+      - "443:443"
     volumes:
-      # 绑定我们的配置目录
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
       - "./config:/etc/traefik"
       - "/var/log/traefik:/var/log/traefik"
+
 

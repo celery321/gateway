@@ -8,35 +8,32 @@ services:
       - "443:443"
       - "8080:8080"
     volumes:
-      # 自动申请的证书存放位置，我们需要在当前目录创建 letsencrypt 目录
-#      - "./letsencrypt:/letsencrypt"
-#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
       # 绑定我们的配置目录
       - "./config:/etc/traefik"
       - "/var/log/traefik:/var/log/traefik"
 
-  traefik-forward-auth:
-    image: thomseddon/traefik-forward-auth:v2.2.0
-    restart: always
-    hostname: traefik-auth.lab.io
-    environment:
-      - LOG_LEVEL=trace
-      - DEFAULT_PROVIDER=generic-oauth
-      - PROVIDERS_GENERIC_OAUTH_AUTH_URL=https://github.com/login/oauth/authorize
-      - PROVIDERS_GENERIC_OAUTH_TOKEN_URL=https://github.com/login/oauth/access_token
-      - PROVIDERS_GENERIC_OAUTH_USER_URL=https://api.github.com/user
-      - PROVIDERS_GENERIC_OAUTH_CLIENT_ID=f358eccac4ff37a6c169
-      - PROVIDERS_GENERIC_OAUTH_CLIENT_SECRET=fcd2a133f1bd996262ef4962a1f9ab097f7bb6a3
-      - PROVIDERS_GENERIC_OAUTH_SCOPE=*
-      - PROVIDERS_GENERIC_OAUTH_TOKEN_STYLE=header
-      - SECRET=something-random
-      - INSECURE_COOKIE=true
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-
-      - "traefik.http.routers.traefik-auth-web.entrypoints=web"
-      - "traefik.http.routers.traefik-auth-web.rule=Host(`traefik-auth.lab.com`, `traefik-auth.lab.io`)"
-
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
-      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+#  traefik-forward-auth:
+#    image: thomseddon/traefik-forward-auth:v2.2.0
+#    restart: always
+#    hostname: traefik-auth.lab.io
+#    environment:
+#      - LOG_LEVEL=trace
+#      - DEFAULT_PROVIDER=generic-oauth
+#      - PROVIDERS_GENERIC_OAUTH_AUTH_URL=https://github.com/login/oauth/authorize
+#      - PROVIDERS_GENERIC_OAUTH_TOKEN_URL=https://github.com/login/oauth/access_token
+#      - PROVIDERS_GENERIC_OAUTH_USER_URL=https://api.github.com/user
+#      - PROVIDERS_GENERIC_OAUTH_CLIENT_ID=f358eccac4ff37a6c169
+#      - PROVIDERS_GENERIC_OAUTH_CLIENT_SECRET=fcd2a133f1bd996262ef4962a1f9ab097f7bb6a3
+#      - PROVIDERS_GENERIC_OAUTH_SCOPE=*
+#      - PROVIDERS_GENERIC_OAUTH_TOKEN_STYLE=header
+#      - SECRET=something-random
+#      - INSECURE_COOKIE=true
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.docker.network=traefik"
+#
+#      - "traefik.http.routers.traefik-auth-web.entrypoints=web"
+#      - "traefik.http.routers.traefik-auth-web.rule=Host(`traefik-auth.lab.com`, `traefik-auth.lab.io`)"
+#
+#      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+#      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"

@@ -1,16 +1,15 @@
 providers:
-#  file:
-#    directory: "/etc/traefik"
-#    watch: true
+  file:
+    directory: "/etc/traefik"
+    watch: true
   etcd:
-    rootKey: "traefik"
+    rootKey: "/traefik"
     endpoints:
       - "192.168.50.16:2379"
-    #监视配置变更
 
 
 log:
-  level: ERROR
+  level: DEBUG
   format: json
   filePath: "/var/log/traefik/system.log"
 accessLog:
